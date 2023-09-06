@@ -1,9 +1,12 @@
 import os
+import allure
 import pytest
 from appium import webdriver
 from appium.options.ios import XCUITestOptions
 from dotenv import load_dotenv
 from selene import browser
+
+from helpers.attachments import add_screenshot
 
 
 @pytest.fixture(scope='session', autouse=True)
@@ -43,8 +46,9 @@ def mobile_management():
 
     browser.config.timeout = float(os.getenv('timeout', '10.0'))
 
+    with allure.step('Test resources: '):
+        add_screenshot(browser)
+
     yield
 
     browser.quit()
-
-
