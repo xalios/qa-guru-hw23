@@ -3,14 +3,10 @@ import allure
 import pytest
 from appium.options.android import UiAutomator2Options
 from appium import webdriver
-from dotenv import load_dotenv
 from selene import browser
+
+from config import settings
 from helpers.attachments import add_screenshot
-
-
-@pytest.fixture(scope='session', autouse=True)
-def load_env():
-    load_dotenv()
 
 
 @pytest.fixture(scope='function', autouse=True)
@@ -31,13 +27,13 @@ def mobile_management():
             "sessionName": "BStack first_test",
 
             # Set your access credentials
-            "userName": os.getenv('BSTACK_USER'),
-            "accessKey": os.getenv('BSTACK_KEY'),
+            "userName": settings.bstack_user,
+            "accessKey": settings.bstack_key,
         }
     })
 
     browser.config.driver = webdriver.Remote(
-        'http://hub.browserstack.com/wd/hub',
+        settings.bstack_url,
         options=options
     )
 
